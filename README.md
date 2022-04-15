@@ -285,7 +285,7 @@ let pizzaBuilder = PizzaBuilder()
 let pizza = pizzaBuilder.prepare()
 ```
 
-### Closures
+### closures
 functions as variables, passing functions to functions
 
 ```
