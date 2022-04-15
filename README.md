@@ -706,3 +706,28 @@ print(website) // Website(url: "www.movies.com%2F%3Fsearch=Lord%20of%20the%20Rin
 ```
 
 ## Initializers 
+
+### in structs
+```swift
+struct Student {
+    let firstname: String
+    let lastname: String
+    let grade: String
+    
+    
+}
+
+extension Student {
+    
+    // will allow you to keep the default initializer 
+    
+    init(firstname: String, lastname: String) {
+        self.firstname = firstname
+        self.lastname = lastname
+        self.grade = ""
+    }
+}
+
+let student = Student(firstname: "", lastname: "")
+let otherStudent = Student(firstname: "", lastname: "", grade: "")
+```
