@@ -1,6 +1,8 @@
 import UIKit
 
-class Economy {
+/*
+
+class Ticket {
     var departure: String
     var arrival: String
     var price: Double
@@ -12,32 +14,89 @@ class Economy {
     }
 }
 
-class FirstClass {
-    var departure: String
-    var arrival: String
-    var price: Double
+class Economy: Ticket {
+    
+}
+
+class FirstClass: Ticket {
     var meal: Bool
     
     init(departure: String, arrival: String, price: Double, meal: Bool) {
-        self.departure = departure
-        self.arrival = arrival
-        self.price = price
         self.meal = meal
+        super.init(departure: departure, arrival: arrival, price: price)
     }
 }
 
-class Business {
-    var departure: String
-    var arrival: String
-    var price: Double
+class Business: Ticket {
     var meal: Bool
     var chargingPorts: Bool
     
     init(departure: String, arrival: String, price: Double, meal: Bool, chargingPorts: Bool) {
-        self.departure = departure
-        self.arrival = arrival
-        self.price = price
         self.meal = meal
         self.chargingPorts = chargingPorts
+        super.init(departure: departure, arrival: arrival, price: price)
+    }
+}
+
+
+func checkIn(ticket: Ticket) {
+    switch ticket {
+    case let ticket as Economy:
+        print(ticket)
+    case let ticket as FirstClass:
+        print(ticket)
+    case let ticket as Business:
+        print(ticket)
+    default:
+        break
+    }
+}
+*/
+
+enum Ticket {
+    case economy(Economy)
+    case firstClass(FirstClass)
+    case bussiness(Business)
+    case international(International)
+}
+
+struct Economy {
+    let departure: String
+    let arrival: String
+}
+
+struct FirstClass {
+    let departure: String
+    let arrival: String
+    let meal: Bool
+}
+
+struct Business {
+    let departure: String
+    let arrival: String
+    let meal: Bool
+    let chargingPorts: Bool
+}
+
+struct International {
+    let departure: String
+    let arrival: String
+    let meal: Bool
+    let chargingPorts: Bool
+    let baggageAllowed: Bool
+}
+
+let ticket = Ticket.bussiness(Business(departure: "Houston", arrival: "Denver", meal: true, chargingPorts: true))
+
+func checkIn(ticket: Ticket) {
+    switch ticket {
+    case .economy(let economy):
+        print("\(economy)")
+    case .firstClass(let firstClass):
+        print("\(firstClass)")
+    case .bussiness(let bussiness):
+        print("\(bussiness)")
+    case .international(let international):
+        print("\(international)")
     }
 }
