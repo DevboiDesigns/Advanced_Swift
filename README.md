@@ -150,6 +150,8 @@ let lastThreeImages = images.suffix(3)
 //}
 
 lastThreeImages.forEach { print($0) }
+
+```
  ### reduce
  will reduce array to 1 value
  ```
