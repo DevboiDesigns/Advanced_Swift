@@ -774,4 +774,4 @@ class Tesla: Car {
 
 let tesla = Tesla(make: "", model: "", color: "", range: 0)
 ```
-![image](Initializers/Screen Shot 2022-04-15 at 6.29.51 PM.png)
+[subclassing-screenshot](Initializers/subclassing-init.png)
