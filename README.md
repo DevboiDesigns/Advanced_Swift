@@ -131,6 +131,7 @@ movies.enumerated().forEach { (index, movie) in
 
  ### lazy iteration 
  when only needing access to small amounts of large amounts of data
+ 
  ```
 let indexes = 1..<5000
 
@@ -154,6 +155,7 @@ lastThreeImages.forEach { print($0) }
 ```
  ### reduce
  will reduce array to 1 value
+
  ```
 struct Item {
     let name: String
@@ -222,6 +224,29 @@ pair.forEach { studentAndGrade in
     print(studentAndGrade.1) // 1 index = grades
 }
  ```
+
+## Functions
+
+### inout 
+in-out parameters
+
+```
+struct User {
+    var userID: Int?
+    let name: String
+}
+
+
+func saveUser(_ user: inout User) {
+    // code to save user
+    user.userID = 100
+}
+
+var user = User(name: "John Doe")
+saveUser(&user) // & = copy of type
+```
+
+
 
  ## Enums
 
