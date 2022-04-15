@@ -5,7 +5,7 @@
  ## Collections
 
  ### iterating 
- ```zsh
+ ```swift
  let names = ["Alex", "John", "Mary"]
 
 var nameIteratory = names.makeIterator()
@@ -67,14 +67,14 @@ for count in countdown {
  ```
 
  ### filter 
- ```zsh
+ ```swift
 var names = ["Alex", "John", "Steven", "Mary"]
 
 let finalNames = names.filter { name in
     return name.count > 4
 }
 ```
-```zsh
+```swift
 
 struct Movie {
     let title: String
@@ -102,7 +102,7 @@ let kidsMovies = movies.filter { movie in
  ```
 
  ### forEach and enumerated
- ```zsh
+ ```swift
 struct Movie {
     let title: String
     let genre: String
@@ -132,7 +132,7 @@ movies.enumerated().forEach { (index, movie) in
  ### lazy iteration 
  when only needing access to small amounts of large amounts of data
 
- ```zsh
+ ```swift
 let indexes = 1..<5000
 
 let images = indexes.lazy.filter { index -> Bool in
@@ -156,7 +156,7 @@ lastThreeImages.forEach { print($0) }
  ### reduce
  will reduce array to 1 value
 
- ```zsh
+ ```swift
 struct Item {
     let name: String
     let price: Double
@@ -186,7 +186,7 @@ cart.addItem(Item(name: "Eggs", price: 12.00))
 
 print(cart.total)
 ```
-```zsh
+```swift
 let items = [2.0,4.0,5.0,7.0]
 
 let totalItems = items.reduce(0, +)
@@ -194,7 +194,7 @@ print(totalItems)
  ```
 
  ### reduce(into: )
- ```zsh
+ ```swift
  let ratings = [4, 8.5, 9.5, 2, 6, 3, 5.5, 7, 2.8, 9.8, 5.9, 1.5]
 
 // -------------------------------------------------inout - results must/can be modified inside closure
@@ -213,7 +213,7 @@ print(results)
  ```
 
 ### zip
- ```zsh
+ ```swift
 let students = ["Alex", "Mary", "John", "Steven"]
 let grades = [3.4, 2.8, 3.8, 4]
 // will only return a pair that as an equal index in both sequences 
@@ -230,7 +230,7 @@ pair.forEach { studentAndGrade in
 ### inout 
 in-out parameters
 
-```zsh
+```swift
 struct User {
     var userID: Int?
     let name: String
@@ -249,7 +249,7 @@ saveUser(&user) // & = copy of type
 ### nested
 functions inside another function
 
-```zsh
+```swift
 struct Pizza {
     let sauce: String
     let toppings: [String]
@@ -288,7 +288,7 @@ let pizza = pizzaBuilder.prepare()
 ### closures
 functions as variables, passing functions to functions
 
-```zsh
+```swift
 /*
 var hello = {
     print("Hello")
@@ -328,7 +328,7 @@ print(powResult)
 
 pass closure into a function - @escaping closures
 
-```zsh
+```swift
 func getPosts(complete: @escaping ([String]) -> ()) {
 
     var posts: [String] = []
@@ -348,7 +348,7 @@ getPosts { posts in
  ## Enums
 
  ### replacing structs with enums
- ```zsh
+ ```swift
  enum Session {
     case keynote(title: String, speaker: String, date: Date, isRecorded: Bool)
     case normal(title: String, speaker: String, date: Date)
@@ -373,7 +373,7 @@ func displaySession(session: Session) {
  ```
   
  ### hiding types
- ```zsh
+ ```swift
 struct Teacher {
     let name: String
     let courses: [String]
@@ -406,7 +406,7 @@ for user in allUsers {
 }
  ```
  ### subclassing with enums
- ```zsh
+ ```swift
  enum Ticket {
     case economy(Economy)
     case firstClass(FirstClass)
@@ -457,7 +457,7 @@ func checkIn(ticket: Ticket) {
  ```
 
 ### sub classing 2
-```zsh
+```swift
 struct Student {
     let name: String
     let courses: [String]
@@ -496,7 +496,7 @@ updateProfile(user: User.student(Student(name: "John Doe", courses: ["Math", "Sc
 ```
 ### raw values
 #### scenerio 1
-```zsh
+```swift
 enum NetworkError: Error {
     case badURL
     case decodingError
@@ -548,7 +548,7 @@ do {
 ```
 
 #### scenerio 2
-```zsh
+```swift
 enum ImageType: String {
     case jpg
     case bmp
@@ -587,7 +587,7 @@ iconName(for: "jpeg")
 ### lazy stored properties
 will only be initalized once / and accessible immediately after first init (ideal for api call)
 
-```zsh
+```swift
 enum Level {
     case easy
     case medium
@@ -627,7 +627,7 @@ print(exam.questions) // returned instantly
 
 ### computed properties 
 
-```zsh
+```swift
 struct Workout {
     let startTime: Date
     let endTime: Date
@@ -646,7 +646,7 @@ let workout = Workout(startTime: start, endTime: end)
 print(workout.timeElapsed)
 ```
 
-```zsh
+```swift
 struct CartItem {
     let name: String
     let price: Double
@@ -674,7 +674,7 @@ print(cart.total)
 
 ### property observers
 
-```zsh
+```swift
 struct Website {
     
     init(url: String) {
