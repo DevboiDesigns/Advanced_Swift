@@ -754,3 +754,24 @@ class Car {
 
 let car = Car(make: "Honda", model: "Accord")
 ```
+
+### subclassing
+
+```swift
+class Tesla: Car {
+    var range: Double
+    
+     init(make: String, model: String, color: String, range: Double) {
+        self.range = range
+        super.init(make: make, model: model, color: color)
+    }
+    
+     override init(make: String, model: String, color: String) {
+       self.range = 300
+       super.init(make: make, model: model, color: color)
+   }
+}
+
+let tesla = Tesla(make: "", model: "", color: "", range: 0)
+```
+![image](Initializers/Screen Shot 2022-04-15 at 6.29.51 PM.png)
