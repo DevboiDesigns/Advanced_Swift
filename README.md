@@ -1,10 +1,10 @@
 # Advanced-Swift 
  Course on Intermediate to Advanced swift techniques
- [UdemyCourse](https://www.udemy.com/course/swift-for-intermediate-and-advanced-ios-developers/)
+ [Udemy](https://www.udemy.com/course/swift-for-intermediate-and-advanced-ios-developers/)
 
  ## Collections
 
- ### Iterating 
+ ### iterating 
  ```
  let names = ["Alex", "John", "Mary"]
 
@@ -66,7 +66,7 @@ for count in countdown {
 }
  ```
 
- ### Filter 
+ ### filter 
  ```
 var names = ["Alex", "John", "Steven", "Mary"]
 
@@ -101,7 +101,7 @@ let kidsMovies = movies.filter { movie in
 
  ```
 
- ### ForEach and Enumerated
+ ### forEach and enumerated
  ```
 struct Movie {
     let title: String
@@ -123,14 +123,38 @@ movies.forEach { movie in
 func addToFav(_ movie: Movie) { }
 
 // Get Access to Index with enumerated
+// ---------------------------returns a Tuple (a, b)
 movies.enumerated().forEach { (index, movie) in
     print("Movie: index - \(index), title - \(movie.title)")
 }
  ```
 
+ ### lazy iteration 
+ when only needing access to small amounts of large amounts of data
+ ```
+let indexes = 1..<5000
+
+let images = indexes.lazy.filter { index -> Bool in
+    print("[filter]")
+    // anything divisble by 2
+    return index % 2 == 0
+}.map { index -> String in
+    print("[map]")
+    return "image_\(index)"
+}
+
+let lastThreeImages = images.suffix(3)
+
+//lastThreeImages.forEach { image in
+//    print(image)
+//}
+
+lastThreeImages.forEach { print($0) }
+ ```
+
  ## Enums
 
- ### Replacing structs with enums
+ ### replacing structs with enums
  ```
  enum Session {
     case keynote(title: String, speaker: String, date: Date, isRecorded: Bool)
@@ -155,7 +179,7 @@ func displaySession(session: Session) {
 }
  ```
   
- ### Hiding types
+ ### hiding types
  ```
 struct Teacher {
     let name: String
@@ -188,7 +212,7 @@ for user in allUsers {
     }
 }
  ```
- ### Subclassing with enums
+ ### subclassing with enums
  ```
  enum Ticket {
     case economy(Economy)
@@ -239,7 +263,7 @@ func checkIn(ticket: Ticket) {
 }
  ```
 
-### Sub classing 2
+### sub classing 2
 ```
 struct Student {
     let name: String
@@ -277,7 +301,7 @@ func updateProfile(user: User) {
 
 updateProfile(user: User.student(Student(name: "John Doe", courses: ["Math", "Science"], isFullTime: true)))
 ```
-### Raw values
+### raw values
 #### scenerio 1
 ```
 enum NetworkError: Error {
