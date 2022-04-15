@@ -131,7 +131,7 @@ movies.enumerated().forEach { (index, movie) in
 
  ### lazy iteration 
  when only needing access to small amounts of large amounts of data
- 
+
  ```
 let indexes = 1..<5000
 
@@ -246,7 +246,44 @@ var user = User(name: "John Doe")
 saveUser(&user) // & = copy of type
 ```
 
+### nested
+functions inside another function
 
+```
+struct Pizza {
+    let sauce: String
+    let toppings: [String]
+    let crust: String
+}
+
+class PizzaBuilder {
+   
+    func prepare() -> Pizza {
+        
+        func prepareSauce() -> String {
+            return "Tomato Sauce"
+        }
+        
+        func prepareToppings() -> [String] {
+            return ["Chicken", "Pesto", "Mushroom"]
+        }
+        
+        func prepareCrust() -> String {
+            return "Hand tossed"
+        }
+        
+        let sauce = prepareSauce()
+        let toppings = prepareToppings()
+        let crust = prepareCrust()
+        
+        return Pizza(sauce: sauce, toppings: toppings, crust: crust)
+    }
+    
+}
+
+let pizzaBuilder = PizzaBuilder()
+let pizza = pizzaBuilder.prepare()
+```
 
  ## Enums
 
