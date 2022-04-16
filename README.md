@@ -1053,7 +1053,7 @@ extension Account {
 
 ### throwing errors
 
-#### one
+#### client side
 
 ```swift
 enum BankAccountError: Error {
@@ -1089,7 +1089,7 @@ do {
 }
 ```
 
-#### two
+#### network error
 
 ```swift
 struct Post: Decodable {
