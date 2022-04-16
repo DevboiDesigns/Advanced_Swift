@@ -2,6 +2,7 @@
  * Course on Intermediate to Advanced swift techniques
  [Udemy](https://www.udemy.com/course/swift-for-intermediate-and-advanced-ios-developers/)
  * `Swift5`
+ * *work in progress*
 
  ## Collections
 
@@ -131,7 +132,7 @@ movies.enumerated().forEach { (index, movie) in
  ```
 
  ### lazy iteration 
- when only needing access to small amounts of large amounts of data
+ *when only needing access to small chunks of large amounts of data*
 
  ```swift
 let indexes = 1..<5000
@@ -155,7 +156,7 @@ lastThreeImages.forEach { print($0) }
 
 ```
  ### reduce
- will reduce array to 1 value
+ *will reduce array to 1 value*
 
  ```swift
 struct Item {
@@ -229,7 +230,7 @@ pair.forEach { studentAndGrade in
 ## Functions
 
 ### inout 
-in-out parameters
+**in-out parameters**
 
 ```swift
 struct User {
@@ -248,7 +249,7 @@ saveUser(&user) // & = copy of type
 ```
 
 ### nested
-functions inside another function
+**functions inside another function**
 
 ```swift
 struct Pizza {
@@ -287,7 +288,7 @@ let pizza = pizzaBuilder.prepare()
 ```
 
 ### closures
-functions as variables, passing functions to functions
+**functions as variables, passing functions to functions**
 
 ```swift
 /*
@@ -327,7 +328,7 @@ let powResult = pow(5, 3)
 print(powResult)
 ```
 
-pass closure into a function - @escaping closures
+**pass closure into a function** - *@escaping closures*
 
 ```swift
 func getPosts(complete: @escaping ([String]) -> ()) {
@@ -588,7 +589,7 @@ iconName(for: "jpeg")
 ## Properties 
 
 ### lazy stored properties
-will only be initalized once / and accessible immediately after first init (ideal for api call)
+*will only be initalized once / and accessible immediately after first init (ideal for api call)*
 
 ```swift
 enum Level {
@@ -853,7 +854,7 @@ displayStudent(student: student)
 
 ### variable shadowing 
 
-custom description when printing to console - CustomStringConvertible
+*custom description when printing to console* - `CustomStringConvertible`
 
 ```swift 
 struct Student: CustomStringConvertible {
@@ -937,6 +938,8 @@ print(student.grade?.gpa ?? "N/A") // will unwrap to non optional --- prints: 3.
 
 ### booleans
 
+`RawRepresentable`
+
 ```swift
 // RawRepresentable - for booleans
 enum UserAgreement: RawRepresentable {
@@ -976,9 +979,9 @@ switch userAgreement {
 
 ### force unwrapping
 
-```swift
-//MARK: if any other way to unwrap, DO NOT force unwrap
+**if any other way to unwrap, DO NOT force unwrap**
 
+```swift
 struct Student {
     let firstname: String
     let lastname: String
@@ -1149,7 +1152,7 @@ getPosts { (result) in
 
 ### using do-catch
 
-error propagation - push errors up to be handled 
+**error propagation** - *push errors up to be handled* 
 
 ```swift
 enum PizzaError: Error {
@@ -1236,14 +1239,14 @@ do {
 ### try? & try! 
 
 ##### try?
-* do not need error message - will just return nil and not stop the app
+* do not need error message - *will just return nil and not stop the app*
 
 ```swift
 let email = try? Email("sdfj")
 ```
 
 ##### try!
-* only use if you are 💯 sure it will not be nill - will crash if not
+* only use if you are 💯 sure it will not be nill - *will crash if not*
   
 ```swift
 let email = try! Email("sdfj")
@@ -1251,7 +1254,7 @@ let email = try! Email("sdfj")
 
 ## Protocols
 
-using protocols allows you to add different types to the same collection and process together 
+*using protocols allows you to add different types to the same collection and process together* 
 
 ### usage 
 
@@ -1316,7 +1319,7 @@ service.processTickets()
 
 ### generics 
 
-associated types - gives flexibity - the class that will dictate what the type will be 
+**associated types** - *gives flexibity* - the class that will dictate what the type will be 
 
 ```swift 
 protocol Parser {
@@ -1365,7 +1368,7 @@ func runParser<P: Parser>(parser: P, input: [P.Input]) where P.Input == JsonPars
 
 ##### part one 
 
-extensions can run as a default implementation
+*extensions can run as a default implementation*
 
 ```swift
 protocol Parser {
