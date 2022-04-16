@@ -2,6 +2,7 @@
  * Course on Intermediate to Advanced swift techniques
  [Udemy](https://www.udemy.com/course/swift-for-intermediate-and-advanced-ios-developers/)
  * `Swift5`
+ * *work in progress*
 
  ## Collections
 
@@ -131,7 +132,7 @@ movies.enumerated().forEach { (index, movie) in
  ```
 
  ### lazy iteration 
- when only needing access to small amounts of large amounts of data
+ *when only needing access to small chunks of large amounts of data*
 
  ```swift
 let indexes = 1..<5000
@@ -155,7 +156,7 @@ lastThreeImages.forEach { print($0) }
 
 ```
  ### reduce
- will reduce array to 1 value
+ *will reduce array to 1 value*
 
  ```swift
 struct Item {
@@ -229,7 +230,7 @@ pair.forEach { studentAndGrade in
 ## Functions
 
 ### inout 
-in-out parameters
+**in-out parameters**
 
 ```swift
 struct User {
@@ -248,7 +249,7 @@ saveUser(&user) // & = copy of type
 ```
 
 ### nested
-functions inside another function
+**functions inside another function**
 
 ```swift
 struct Pizza {
@@ -287,7 +288,7 @@ let pizza = pizzaBuilder.prepare()
 ```
 
 ### closures
-functions as variables, passing functions to functions
+**functions as variables, passing functions to functions**
 
 ```swift
 /*
@@ -327,7 +328,7 @@ let powResult = pow(5, 3)
 print(powResult)
 ```
 
-pass closure into a function - @escaping closures
+**pass closure into a function** - *@escaping closures*
 
 ```swift
 func getPosts(complete: @escaping ([String]) -> ()) {
@@ -588,7 +589,7 @@ iconName(for: "jpeg")
 ## Properties 
 
 ### lazy stored properties
-will only be initalized once / and accessible immediately after first init (ideal for api call)
+*will only be initalized once / and accessible immediately after first init (ideal for api call)*
 
 ```swift
 enum Level {
@@ -853,7 +854,7 @@ displayStudent(student: student)
 
 ### variable shadowing 
 
-custom description when printing to console - CustomStringConvertible
+*custom description when printing to console* - `CustomStringConvertible`
 
 ```swift 
 struct Student: CustomStringConvertible {
@@ -937,6 +938,8 @@ print(student.grade?.gpa ?? "N/A") // will unwrap to non optional --- prints: 3.
 
 ### booleans
 
+`RawRepresentable`
+
 ```swift
 // RawRepresentable - for booleans
 enum UserAgreement: RawRepresentable {
@@ -976,9 +979,9 @@ switch userAgreement {
 
 ### force unwrapping
 
-```swift
-//MARK: if any other way to unwrap, DO NOT force unwrap
+**if any other way to unwrap, DO NOT force unwrap**
 
+```swift
 struct Student {
     let firstname: String
     let lastname: String
@@ -1149,7 +1152,7 @@ getPosts { (result) in
 
 ### using do-catch
 
-error propagation - push errors up to be handled 
+**error propagation** - *push errors up to be handled* 
 
 ```swift
 enum PizzaError: Error {
@@ -1236,15 +1239,360 @@ do {
 ### try? & try! 
 
 ##### try?
-* do not need error message - will just return nil and not stop the app
+* do not need error message - *will just return nil and not stop the app*
 
 ```swift
 let email = try? Email("sdfj")
 ```
 
 ##### try!
-* only use if you are 💯 sure it will not be nill - will crash if not
+* only use if you are 💯 sure it will not be nill - *will crash if not*
   
 ```swift
 let email = try! Email("sdfj")
+```
+
+## Protocols
+
+*using protocols allows you to add different types to the same collection and process together* 
+
+### usage 
+
+```swift
+extension Date {
+    static func fiveHoursFromNow() -> Date {
+        return Date().addingTimeInterval(5 * 60 * 60)
+    }
+}
+
+protocol AirlineTicket {
+    var name: String { get }
+    var departure: Date? { get set }
+    var arrival: Date? { get set }
+}
+
+struct Economy: AirlineTicket {
+    let name = "ECON"
+    var departure: Date?
+    var arrival: Date?
+}
+
+struct Business: AirlineTicket {
+    let name = "BUS"
+    var departure: Date?
+    var arrival: Date?
+}
+
+struct First: AirlineTicket {
+    let name = "FIRST"
+    var departure: Date?
+    var arrival: Date?
+}
+
+
+class CheckoutService {
+    
+    var tickets: [AirlineTicket]
+    
+    init(tickets: [AirlineTicket]) {
+        self.tickets = tickets
+    }
+    
+    func addTicket(_ ticket: AirlineTicket) {
+        self.tickets.append(ticket)
+    }
+    
+    func processTickets() {
+        tickets.forEach { print($0) }
+    }
+}
+
+
+let economyTickets = [
+    Economy(departure: Date(), arrival: Date.fiveHoursFromNow())
+]
+
+let service = CheckoutService(tickets: economyTickets)
+service.addTicket(First(departure: Date(), arrival: Date.fiveHoursFromNow()))
+service.processTickets()
+```
+
+### generics 
+
+**associated types** - *gives flexibity* - the class that will dictate what the type will be 
+
+```swift 
+protocol Parser {
+    
+    associatedtype Input
+    associatedtype Output
+    
+    func parse(input: Input) -> Output
+}
+
+class TextFileParser: Parser {
+    func parse(input: String) -> String {
+        return ""
+    }
+}
+
+class HTMLParser: Parser {
+    func parse(input: String) -> [String] {
+        return [""]
+    } 
+}
+
+```
+
+```swift
+class JsonParser: Parser {
+    
+    typealias Input = String
+    typealias Output = [String: String]
+    
+    func parse(input: Input) -> Output {
+        return [:]
+    }
+}
+```
+
+```swift
+func runParser<P: Parser>(parser: P, input: [P.Input]) where P.Input == JsonParser {
+    input.forEach {
+       _ = parser.parse(input: $0)
+    }
+}
+```
+
+### extensions
+
+##### part one 
+
+```swift
+protocol Parser {
+    associatedtype Input
+    associatedtype Output
+    
+    func parse(input: Input) -> Output
+}
+
+// if you do not implement, then the default is used
+extension Parser {
+    
+    func parse(input: String) -> [String]  {
+        return ["<html></html>", "<p></p>"]
+    }
+}
+
+class XHTMLParser: Parser {
+    
+}
+
+let xhtmlParser = XHTMLParser()
+xhtmlParser.parse(input: "")
+```
+
+##### part two
+
+*creating default implementations* 
+
+```swift
+protocol Account {
+    
+    var balance: Double { get set }
+    
+    mutating func deposit(_ amount: Double)
+    mutating func withdraw(_ amount: Double)
+    func calculateInterestEarned() -> Double
+    func transfer(from: Account, to: Account, amount: Double)
+    
+}
+```
+
+**extensions become default implementation**
+
+```swift
+extension Account {
+    mutating func deposit(_ amount: Double) { balance += amount }
+    mutating func withdraw(_ amount: Double) { balance -= amount }
+    func calculateInterestEarned() -> Double { return (balance * (0.1/100)) }
+}
+
+struct CheckingAccount: Account {
+    var balance: Double
+    
+    func transfer(from: Account, to: Account, amount: Double) {
+        //
+    }
+    
+    func calculateInterestEarned() -> Double { return (balance * (0.2/100)) }
+}
+
+
+struct MoneyMarketAccount: Account {
+    var balance: Double
+    
+    func transfer(from: Account, to: Account, amount: Double) {
+        //
+    }
+    
+    func calculateInterestEarned() -> Double { return (balance * (0.4/100)) }
+}
+```
+
+##### part three
+
+```swift
+protocol Account {
+    var balance: Double { get set }
+    mutating func deposit(_ amount: Double)
+    mutating func withdraw(_ amount: Double)
+    func calculateInterestEarned() -> Double
+    func transfer(from: Account, to: Account, amount: Double)
+}
+
+extension Account {
+    mutating func deposit(_ amount: Double) { balance += amount }
+    mutating func withdraw(_ amount: Double) { balance -= amount }
+    func calculateInterestEarned() -> Double { return (balance * (0.1/100)) }
+}
+
+struct VerificationRequest {
+    let accounts: [Account]
+}
+
+struct VerificationResponse {
+    let verified: Bool
+}
+
+// 2nd Protocol
+protocol Verification {
+    func performVerification(_ request: VerificationRequest, complete: (VerificationResponse) -> Void)
+}
+
+extension Verification {
+    func performVerification(_ request: VerificationRequest, complete: (VerificationResponse) -> Void) {
+        // perform verificaton logic
+    }
+}
+
+
+struct CheckingAccount: Account, Verification {
+    var balance: Double
+    
+    func transfer(from: Account, to: Account, amount: Double) {
+        self.performVerification(VerificationRequest(accounts: [from, to])) { (response) in
+            if response.verified {
+                // transfer funds
+            }
+        }
+    }
+}
+```
+
+### inheritance
+
+*protocol inheritance*
+
+```swift
+struct Course {
+    let courseNumber: String
+    let name: String
+    let creditHours: Int
+}
+
+protocol Student {
+    var courses: [Course] { get set }
+    mutating func enroll(_ course: Course)
+}
+
+extension Student {
+    mutating func enroll(_ course: Course) {
+        courses.append(course)
+    }
+}
+
+// Inheritats from Student Protocol all methods and properties
+protocol StudentVerification: Student {
+    func verify() -> Bool
+}
+
+extension StudentVerification {
+    
+    func verify() -> Bool {
+        return true
+    }
+    
+    func enroll(_ course: Course) {
+        if verify() {
+            // enroll
+        }
+    }
+}
+
+// has both Student and StudentVerification protocal inheritance
+struct InternationalStudent: StudentVerification {
+    var courses: [Course] = []
+}
+
+
+let student = InternationalStudent()
+// will run StudentVerification extension implementation
+student.enroll(Course(courseNumber: "1234", name: "Math", creditHours: 3))
+```
+
+### composition
+
+*protocol composition* - more flexible than inherting 
+
+```swift
+struct Course {
+    let courseNumber: String
+    let name: String
+    let creditHours: Int
+}
+
+protocol Student {
+    var courses: [Course] { get set }
+    mutating func enroll(_ course: Course)
+}
+
+extension Student {
+    mutating func enroll(_ course: Course) {
+        courses.append(course)
+    }
+}
+```
+
+*all inheriting types must conform to `Student`*
+
+```swift
+protocol VerifyStudent where Self: Student {
+    func verify() -> Bool
+}
+
+extension VerifyStudent {
+    func enroll(_ course: Course) {
+        if verify() {
+            // Enroll student
+        }
+    }
+    
+    func verify() -> Bool {
+        return true
+    }
+}
+
+struct InternationalStudent: Student, VerifyStudent {
+    var courses: [Course] = []
+}
+```
+
+
+## Generics 
+
+### usage
+
+```swift
+
 ```
