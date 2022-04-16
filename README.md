@@ -997,6 +997,8 @@ guard let url = URL(string: "https:// sf ww.google.com") else {
 ### types of errors
 
 * syntax errors
+
+[Syntax Error](ErrorHandling/syntax-error.png)
   
 ```swift
 func calculateAPR(balance: Double) -> Double {
@@ -1007,9 +1009,10 @@ func calculateAPR(balance: Double) -> Double {
 calculateAPR(balance: "5000")
 //MARK: ERROR Message: Cannot convert value of type 'String' to expected argument type 'Double'
 ```
-[Syntax Error](ErrorHandling/syntax-error.png)
 
 * runtime errors
+
+[Runtime Error](ErrorHandling/runtime-error.png)
   
 ```swift
 let airports = [
@@ -1024,8 +1027,6 @@ let name = airports["HOBBY"]!
 
 // CONSOLE: __lldb_expr_5/TypesOfErrors.playground:9: Fatal error: Unexpectedly found nil while unwrapping an Optional value
 ```
-
-[Runtime Error](ErrorHandling/runtime-error.png)
 
 * logic errors
 
