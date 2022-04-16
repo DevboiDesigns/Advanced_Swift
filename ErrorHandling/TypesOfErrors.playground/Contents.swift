@@ -1,21 +1,36 @@
 import UIKit
 
-struct Account {
-    var balance: Double
+enum BankAccountError: Error {
+    case insuficientFunds
+    case accountClosed
 }
 
-extension Account {
+class BankAccount {
     
-    mutating func deposit(_ amount: Double) {
-        balance += amount
+    var balance: Double
+    
+    init(balance: Double) {
+        self.balance = balance
     }
     
-    mutating func withdraw(_ amount: Double) {
-        // ---  (-)
-        balance += amount
-    }
-    
-    func calculateInterestEarned() -> Double {
-        return (balance * (0.1/100))
+    func withdraw(amount: Double) throws {
+        if balance < amount {
+            // throw an error
+            throw BankAccountError.insuficientFunds
+        }
+        
+        balance -= amount
     }
 }
+
+
+let account = BankAccount(balance: 100)
+
+do {
+    try account.withdraw(amount: 300)
+} catch {
+    print(error)
+}
+
+
+
