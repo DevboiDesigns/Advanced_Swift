@@ -813,3 +813,180 @@ final class Car: CarType {
 
 let car = Car(make: "Honda", model: "Accord")
 ```
+
+## Optionals
+
+### unwrapping techniques 
+
+```swift 
+struct Student {
+    let firstname: String
+    let lastname: String
+    var middlename: String?
+    var grade: String?
+}
+
+var student = Student(firstname: "John", lastname: "Doe")
+student.middlename = "Johnson"
+student.grade = "A"
+
+//MARK:  --------------------------------------------  if let
+if let middlename = student.middlename, let grade = student.grade {
+    print("[middlename] \(middlename) [grade] \(grade)")
+}
+
+if let _ = student.grade {
+    print("Student has a grade")
+}
+
+//MARK:  -------------------------------------------- guard statement
+func displayStudent(student: Student) {
+    guard let middlename = student.middlename, let grade = student.grade else { return }
+    print("[middlename] \(middlename) [grade] \(grade)")
+    
+}
+displayStudent(student: student)
+```
+
+### variable shadowing 
+
+custom description when printing to console - CustomStringConvertible
+
+```swift 
+struct Student: CustomStringConvertible {
+    // required init
+    var description: String {
+        var studentDescription = "\(firstname)"
+        
+        // -- variable shadwoing
+        if let middlename = middlename {
+            studentDescription.append(" \(middlename)")
+        }
+        
+        studentDescription.append(" \(lastname)")
+        
+        if let grade = grade {
+            studentDescription.append(" - Grade: \(grade)")
+        }
+    
+        return studentDescription
+    }
+    
+    let firstname: String
+    let lastname: String
+    var middlename: String?
+    var grade: String?
+}
+
+var student = Student(firstname: "John", lastname: "Doe", middlename: "Smith", grade: "A")
+
+print(student) //prints: John Smith Doe - Grade: A
+```
+
+### returning optional strings 
+
+```swift 
+struct Student {
+    let firstname: String?
+    let lastname: String?
+    
+    var displayName: String? {
+        switch (firstname, lastname) {
+            case let (first?, last?): return "\(first) \(last)"
+            case let (first?, nil): return first
+            case let (nil, last?): return last
+            default: return nil
+        }
+    }
+}
+
+var student = Student(firstname: nil, lastname: nil)
+
+func createGreetingMessage(student: Student) -> String {
+    let message = """
+        Dear \(student.displayName ?? "Student"), Welcome to Swift University
+        """
+    return message
+}
+
+let message = createGreetingMessage(student: student)
+print(message)
+```
+
+### chaining optionals
+
+```swift
+struct Grade {
+    let gpa: Double?
+    let letter: String?
+}
+
+struct Student {
+    let firstname: String
+    let lastname: String
+    let grade: Grade?
+}
+
+let student = Student(firstname: "John", lastname: "Doe", grade: Grade(gpa: 3.2, letter: "B"))
+
+print(student.grade?.gpa ?? "N/A") // will unwrap to non optional --- prints: 3.2
+```
+
+### booleans
+
+```swift
+// RawRepresentable - for booleans
+enum UserAgreement: RawRepresentable {
+    case accepted
+    case rejected
+    case notSet
+    
+    init(rawValue: Bool?) {
+        switch rawValue {
+            case true?: self = .accepted
+            case false?: self = .rejected
+            default: self = .notSet
+        }
+    }
+    
+    var rawValue: Bool? {
+        switch self {
+            case .accepted: return true
+            case .rejected: return false
+            case .notSet: return nil
+        }
+    }
+}
+
+
+let userAgreement = UserAgreement(rawValue: nil)
+
+switch userAgreement {
+    case .accepted:
+        print("accepted")
+    case .rejected:
+        print("rejected")
+    case .notSet:
+        print("notSet")
+}
+```
+
+### force unwrapping
+
+```swift
+//MARK: if any other way to unwrap, DO NOT force unwrap
+
+struct Student {
+    let firstname: String
+    let lastname: String
+    let grade: String?
+}
+
+let student = Student(firstname: "John", lastname: "Doe", grade: nil)
+
+//print(student.grade!) -- DO NOT
+
+guard let url = URL(string: "https:// sf ww.google.com") else {
+    fatalError("URL is not defined!") // will still crash app 
+}
+```
