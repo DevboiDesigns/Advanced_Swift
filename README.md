@@ -1489,3 +1489,101 @@ struct CheckingAccount: Account, Verification {
     }
 }
 ```
+
+### inheritance
+
+*protocol inheritance*
+
+```swift
+struct Course {
+    let courseNumber: String
+    let name: String
+    let creditHours: Int
+}
+
+protocol Student {
+    var courses: [Course] { get set }
+    mutating func enroll(_ course: Course)
+}
+
+extension Student {
+    mutating func enroll(_ course: Course) {
+        courses.append(course)
+    }
+}
+
+// Inheritats from Student Protocol all methods and properties
+protocol StudentVerification: Student {
+    func verify() -> Bool
+}
+
+extension StudentVerification {
+    
+    func verify() -> Bool {
+        return true
+    }
+    
+    func enroll(_ course: Course) {
+        if verify() {
+            // enroll
+        }
+    }
+}
+
+// has both Student and StudentVerification protocal inheritance
+struct InternationalStudent: StudentVerification {
+    var courses: [Course] = []
+}
+
+
+let student = InternationalStudent()
+// will run StudentVerification extension implementation
+student.enroll(Course(courseNumber: "1234", name: "Math", creditHours: 3))
+```
+
+### composition
+
+*protocol composition* - more flexible than inherting 
+
+```swift
+struct Course {
+    let courseNumber: String
+    let name: String
+    let creditHours: Int
+}
+
+protocol Student {
+    var courses: [Course] { get set }
+    mutating func enroll(_ course: Course)
+}
+
+extension Student {
+    mutating func enroll(_ course: Course) {
+        courses.append(course)
+    }
+}
+```
+
+*all inheriting types must conform to `Student`*
+
+```swift
+protocol VerifyStudent where Self: Student {
+    func verify() -> Bool
+}
+
+extension VerifyStudent {
+    func enroll(_ course: Course) {
+        if verify() {
+            // Enroll student
+        }
+    }
+    
+    func verify() -> Bool {
+        return true
+    }
+}
+
+struct InternationalStudent: Student, VerifyStudent {
+    var courses: [Course] = []
+}
+```
