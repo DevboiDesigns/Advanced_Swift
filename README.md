@@ -990,3 +990,161 @@ guard let url = URL(string: "https:// sf ww.google.com") else {
     fatalError("URL is not defined!") // will still crash app 
 }
 ```
+
+## Error Handling 
+
+### types of errors
+
+* syntax errors
+  
+```swift
+func calculateAPR(balance: Double) -> Double {
+    // calculate
+    return 10.0
+}
+
+calculateAPR(balance: "5000")
+//MARK: ERROR Message: Cannot convert value of type 'String' to expected argument type 'Double'
+```
+[Syntax Error](ErrorHandling/syntax-error.png)
+
+* runtime errors
+  
+```swift
+let airports = [
+    "IAH": "Intercontinental Airport",
+    "JFK": "John F Kennedy, International Airport",
+    "SEA": "Seattle-Tacoma, International Airport",
+]
+
+let name = airports["HOBBY"]!
+//MARK: ERROR Message: error: Execution was interrupted, reason: EXC_BAD_INSTRUCTION (code=EXC_I386_INVOP, subcode=0x0).
+//The process has been left at the point where it was interrupted, use "thread return -x" to return to the state before expression evaluation.
+
+// CONSOLE: __lldb_expr_5/TypesOfErrors.playground:9: Fatal error: Unexpectedly found nil while unwrapping an Optional value
+```
+
+[Runtime Error](ErrorHandling/runtime-error.png)
+
+* logic errors
+
+```swift
+struct Account {
+    var balance: Double
+}
+
+extension Account {
+    
+    mutating func deposit(_ amount: Double) {
+        balance += amount
+    }
+    
+    mutating func withdraw(_ amount: Double) {
+        // ---  (-)  --- error 
+        balance += amount
+    }
+    
+    func calculateInterestEarned() -> Double {
+        return (balance * (0.1/100))
+    }
+}
+
+```
+
+### throwing errors
+
+#### client side
+
+```swift
+enum BankAccountError: Error {
+    case insuficientFunds
+    case accountClosed
+}
+
+class BankAccount {
+    
+    var balance: Double
+    
+    init(balance: Double) {
+        self.balance = balance
+    }
+    
+    func withdraw(amount: Double) throws {
+        if balance < amount {
+            // throw an error
+            throw BankAccountError.insuficientFunds
+        }
+        
+        balance -= amount
+    }
+}
+
+
+let account = BankAccount(balance: 100)
+
+do {
+    try account.withdraw(amount: 300)
+} catch {
+    print(error)
+}
+```
+
+#### network error
+
+```swift
+struct Post: Decodable {
+    let title: String
+    let body: String
+}
+
+enum NetworkError: Error {
+    case badURL
+    case decodingError
+    case badRequest
+    case noData
+    case custom(Error)
+}
+
+func getPosts(complete: @escaping (Result<[Post], NetworkError>) -> Void) {
+    guard let url = URL(string: "https://jsonplaceholder.typicode.com/posts") else {
+        complete(.failure(.badURL))
+        return
+    }
+    
+    URLSession.shared.dataTask(with: url) { (data, response, error) in
+        
+        if let error = error {
+            complete(.failure(.custom(error)))
+        } else if (response as? HTTPURLResponse)?.statusCode != 200 {
+            complete(.failure(.badRequest))
+        } else {
+            guard let data = data else {
+                complete(.failure(.noData))
+                return
+            }
+        
+            let posts = try? JSONDecoder().decode([Post].self, from: data)
+            if let posts = posts {
+                complete(.success(posts))
+            } else {
+                complete(.failure(.decodingError))
+            }
+        }
+    }.resume()
+}
+
+getPosts { (result) in
+    switch result {
+    case .success(let posts):
+        print(posts)
+    case .failure(let error):
+        print(error)
+    }
+}
+```
+
+### using do-catch
+
+```swift
+
+```
