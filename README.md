@@ -990,3 +990,20 @@ guard let url = URL(string: "https:// sf ww.google.com") else {
     fatalError("URL is not defined!") // will still crash app 
 }
 ```
+
+## Error Handling 
+
+### types of errors
+
+* syntax errors
+  
+```swift
+func calculateAPR(balance: Double) -> Double {
+    // calculate
+    return 10.0
+}
+
+calculateAPR(balance: "5000")
+//MARK: ERROR Message: Cannot convert value of type 'String' to expected argument type 'Double'
+[Syntax Error](ErrorHandling/syntax-error.png)
+```
