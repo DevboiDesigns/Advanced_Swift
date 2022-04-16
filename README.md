@@ -1147,6 +1147,102 @@ getPosts { (result) in
 
 ### using do-catch
 
-```swift
+error propagation - push errors up to be handled 
 
+```swift
+enum PizzaError: Error {
+    case burnt(String)
+    case noToppings(String)
+}
+
+struct Pizza {
+    let dough: String
+    let toppings: [String]
+}
+
+struct PizzaBuilder {
+    
+    func prepare() -> Pizza? {
+        
+        do {
+            let dough = try prepareDough()
+            let toppings = try prepareToppings()
+            return Pizza(dough: dough, toppings: toppings)
+        } catch {
+            print(error)
+            print("Unable to prepare")
+            return nil
+        }
+    }
+    
+    private func prepareDough() throws -> String {
+        // prepare dough
+        throw PizzaError.burnt("Burnt the pizza dough")
+     
+    }
+    
+    private func prepareToppings() throws -> [String] {
+        // prepare dough
+        throw PizzaError.noToppings("Chicken & Onions are n/a")
+     
+    }
+}
+
+let pizza = PizzaBuilder()
+pizza.prepare()
+```
+
+### validity with type 
+
+```swift
+enum ValidationError: Error {
+    case noEmptyValueAllowed
+    case invalidEmail
+}
+
+// Validating Types ------------------------------------------------
+
+struct Email {
+    var text: String
+    
+    init(_ text: String) throws {
+        guard !text.isEmpty else { throw ValidationError.noEmptyValueAllowed }
+        
+        let pattern = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", pattern)
+        
+        let isValid = emailPredicate.evaluate(with: text)
+        
+        if isValid {
+            self.text = text
+        } else {
+            throw ValidationError.invalidEmail
+        }
+    }
+}
+
+
+do {
+    let email = try Email("johndoe@gmail.com")
+    print(email)
+} catch {
+    print(error)
+}
+```
+
+
+### try? & try! 
+
+##### try?
+* do not need error message - will just return nil and not stop the app
+
+```swift
+let email = try? Email("sdfj")
+```
+
+##### try!
+* only use if you are 💯 sure it will not be nill - will crash if not
+  
+```swift
+let email = try! Email("sdfj")
 ```
