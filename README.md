@@ -1587,3 +1587,12 @@ struct InternationalStudent: Student, VerifyStudent {
     var courses: [Course] = []
 }
 ```
+
+
+## Generics 
+
+### usage
+
+```swift
+
+```
