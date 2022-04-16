@@ -408,7 +408,7 @@ for user in allUsers {
  ```
 ### subclassing
 
- #### scenerio 1
+ ##### scenerio 1
  ```swift
  enum Ticket {
     case economy(Economy)
@@ -459,7 +459,7 @@ func checkIn(ticket: Ticket) {
 }
  ```
 
-#### scenerio 2
+##### scenerio 2
 ```swift
 struct Student {
     let name: String
@@ -498,7 +498,7 @@ func updateProfile(user: User) {
 updateProfile(user: User.student(Student(name: "John Doe", courses: ["Math", "Science"], isFullTime: true)))
 ```
 ### raw values
-#### scenerio 1
+##### scenerio 1
 ```swift
 enum NetworkError: Error {
     case badURL
@@ -550,7 +550,7 @@ do {
 }
 ```
 
-#### scenerio 2
+##### scenerio 2
 ```swift
 enum ImageType: String {
     case jpg
@@ -1057,7 +1057,7 @@ extension Account {
 
 ### throwing errors
 
-#### client side
+##### client side
 
 ```swift
 enum BankAccountError: Error {
@@ -1093,7 +1093,7 @@ do {
 }
 ```
 
-#### network error
+##### network error
 
 ```swift
 struct Post: Decodable {
