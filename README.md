@@ -408,7 +408,7 @@ for user in allUsers {
  ```
 ### subclassing
 
- #### 1
+ #### scenerio 1
  ```swift
  enum Ticket {
     case economy(Economy)
@@ -459,7 +459,7 @@ func checkIn(ticket: Ticket) {
 }
  ```
 
-#### 2
+#### scenerio 2
 ```swift
 struct Student {
     let name: String
