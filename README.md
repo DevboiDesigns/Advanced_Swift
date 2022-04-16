@@ -1005,5 +1005,48 @@ func calculateAPR(balance: Double) -> Double {
 
 calculateAPR(balance: "5000")
 //MARK: ERROR Message: Cannot convert value of type 'String' to expected argument type 'Double'
+```
 [Syntax Error](ErrorHandling/syntax-error.png)
+
+* runtime errors
+  
+```swift
+let airports = [
+    "IAH": "Intercontinental Airport",
+    "JFK": "John F Kennedy, International Airport",
+    "SEA": "Seattle-Tacoma, International Airport",
+]
+
+let name = airports["HOBBY"]!
+//MARK: ERROR Message: error: Execution was interrupted, reason: EXC_BAD_INSTRUCTION (code=EXC_I386_INVOP, subcode=0x0).
+//The process has been left at the point where it was interrupted, use "thread return -x" to return to the state before expression evaluation.
+
+// CONSOLE: __lldb_expr_5/TypesOfErrors.playground:9: Fatal error: Unexpectedly found nil while unwrapping an Optional value
+```
+
+[Runtime Error](ErrorHandling/runtime-error.png)
+
+* logic errors
+
+```swift
+struct Account {
+    var balance: Double
+}
+
+extension Account {
+    
+    mutating func deposit(_ amount: Double) {
+        balance += amount
+    }
+    
+    mutating func withdraw(_ amount: Double) {
+        // ---  (-)  --- error 
+        balance += amount
+    }
+    
+    func calculateInterestEarned() -> Double {
+        return (balance * (0.1/100))
+    }
+}
+
 ```
