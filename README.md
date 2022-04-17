@@ -1743,6 +1743,8 @@ print(lowest(list: [Card.ace, Card.king, Card.queen]))
 
 ### creating generics 
 
+*similar to `Result` type* **Custom Generic** 
+
 ```swift
 enum NetworkError: Error {
     case badURL
@@ -1751,10 +1753,7 @@ enum NetworkError: Error {
 struct Post: Codable {
     let title: String
 }
-```
 
-*similar to `Result` type* **Custom Generic** 
-```swift
 enum Callback<T: Codable, K: Error> {
     case success(T)
     case failure(K)
