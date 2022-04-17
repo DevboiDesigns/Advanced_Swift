@@ -1620,6 +1620,123 @@ let (firstMovie, lastMovie) = firstLast(movies)
 
 ### constraints
 
-```swift
+##### part one
 
+*not all types can be compared, so setting a constraint fixes*
+`Equatable` protocol
+
+```swift
+// can comparable 
+struct Movie: Equatable {
+    let name: String
+    init(_ name: String) { self.name = name }
+}
+
+let numbers = [1,2,3,4,5,6,7,8,9]
+let names = ["Alex", "John", "Mary", "Steve"]
+let movies = [Movie("Batman"), Movie("Spiderman"), Movie("Superman")]
+
+// Equatable constrains to comparable types
+func findIndex<T: Equatable>(from list: [T], valueToFind: T) -> Int? {
+    
+    return list.firstIndex { (item) -> Bool in
+        return item == valueToFind
+    }
+}
+
+let batmanMovie = Movie("Batman")
+print(findIndex(from: movies, valueToFind: batmanMovie))
+```
+
+##### part two 
+
+`Codable`
+
+```swift
+struct Movie: Codable {
+    let name: String
+    init(_ name: String) { self.name = name }
+}
+
+func seralizeToData<T: Codable>(_ value: T) -> Data? {
+    return try? JSONEncoder().encode(value)
+}
+```
+
+```swift
+protocol Fly { func fly() }
+protocol Teleport { func teleport() }
+protocol Strength { func throwObject() }
+
+typealias SuperHero = Fly & Teleport & Strength
+
+struct Electronman: SuperHero {
+    func fly() { }
+    func teleport() { }
+    func throwObject() { }
+}
+
+struct Superman: Fly {
+    func fly() { }
+}
+
+func attack<T: SuperHero>(value: T) {
+    
+}
+
+let electronman = Electronman()
+let superman = Superman()
+attack(value: superman) // will not compile
+attack(value: electronman)
+```
+
+### equatable and comparable
+
+`Equatable: ==` - *implementing* 
+
+`Comparable: <, >, =, etc`
+
+```swift
+func lowest<T: Comparable>(list: [T]) -> T? {
+    let sortedList = list.sorted { return $0 < $1 }
+    
+    return sortedList.first
+}
+```
+
+*making types comparable* 
+
+```swift
+enum Card: Comparable {
+    case ace
+    case king
+    case queen
+    
+    // --- less than <
+    static func <(lhs: Card, rhs: Card) -> Bool {
+        switch (lhs, rhs) {
+            // left hand side is less < than righ = lhs, rhs
+        case (king, ace): return true
+        case (queen, king): return true
+        case (queen, ace): return true
+        default: return false
+            
+        }
+    }
+}
+
+func lowest<T: Comparable>(list: [T]) -> T? {
+    let sortedList = list.sorted { return $0 < $1 }
+    
+    return sortedList.first
+}
+
+let queen = Card.queen
+let ace = Card.ace
+
+if queen < ace {
+    print("Queen is less")
+}
+
+print(lowest(list: [Card.ace, Card.king, Card.queen]))
 ```
