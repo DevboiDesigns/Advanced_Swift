@@ -1753,7 +1753,7 @@ struct Post: Codable {
 }
 ```
 
-*similar to Result type* **Custom Generic** 
+*similar to `Result` type* **Custom Generic** 
 ```swift
 enum Callback<T: Codable, K: Error> {
     case success(T)
