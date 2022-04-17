@@ -409,7 +409,7 @@ for user in allUsers {
  ```
 ### subclassing
 
- ##### scenerio 1
+ #### scenerio 1
  ```swift
  enum Ticket {
     case economy(Economy)
@@ -460,7 +460,7 @@ func checkIn(ticket: Ticket) {
 }
  ```
 
-##### scenerio 2
+#### scenerio 2
 ```swift
 struct Student {
     let name: String
@@ -499,7 +499,7 @@ func updateProfile(user: User) {
 updateProfile(user: User.student(Student(name: "John Doe", courses: ["Math", "Science"], isFullTime: true)))
 ```
 ### raw values
-##### scenerio 1
+#### scenerio 1
 ```swift
 enum NetworkError: Error {
     case badURL
@@ -551,7 +551,7 @@ do {
 }
 ```
 
-##### scenerio 2
+#### scenerio 2
 ```swift
 enum ImageType: String {
     case jpg
@@ -1060,7 +1060,7 @@ extension Account {
 
 ### throwing errors
 
-##### client side
+#### client side
 
 ```swift
 enum BankAccountError: Error {
@@ -1096,7 +1096,7 @@ do {
 }
 ```
 
-##### network error
+#### network error
 
 ```swift
 struct Post: Decodable {
@@ -1238,14 +1238,14 @@ do {
 
 ### try? & try! 
 
-##### try?
+#### try?
 * do not need error message - *will just return nil and not stop the app*
 
 ```swift
 let email = try? Email("sdfj")
 ```
 
-##### try!
+#### try!
 * only use if you are 💯 sure it will not be nill - *will crash if not*
   
 ```swift
@@ -1366,7 +1366,7 @@ func runParser<P: Parser>(parser: P, input: [P.Input]) where P.Input == JsonPars
 
 ### extensions
 
-##### part one 
+#### part one 
 
 ```swift
 protocol Parser {
@@ -1392,7 +1392,7 @@ let xhtmlParser = XHTMLParser()
 xhtmlParser.parse(input: "")
 ```
 
-##### part two
+#### part two
 
 *creating default implementations* 
 
@@ -1440,7 +1440,7 @@ struct MoneyMarketAccount: Account {
 }
 ```
 
-##### part three
+#### part three
 
 ```swift
 protocol Account {
@@ -1620,7 +1620,7 @@ let (firstMovie, lastMovie) = firstLast(movies)
 
 ### constraints
 
-##### part one
+#### part one
 
 *not all types can be compared, so setting a constraint fixes*
 `Equatable` protocol
@@ -1648,7 +1648,7 @@ let batmanMovie = Movie("Batman")
 print(findIndex(from: movies, valueToFind: batmanMovie))
 ```
 
-##### part two 
+#### part two 
 
 `Codable`
 
