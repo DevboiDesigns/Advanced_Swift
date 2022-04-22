@@ -1096,6 +1096,16 @@ do {
 }
 ```
 
+```swift
+do {
+ let result = try tipCalcultor.calculate(total: total, tipPercentage: self.tipPercentage)     
+} catch TipCalculatorError.invalidInput {
+       message = "Invalid Input"
+} catch {
+       print("Error")
+}
+```
+
 #### network error
 
 ```swift
@@ -1779,4 +1789,13 @@ getPosts { (result) in
         print(error)
     }
 }
+```
+
+# Helpful Code
+
+## Format Currency to local
+```swift
+let formatter = NumberFormatter()
+formatter.numberStyle = .currency
+tip = formatter.string(from: NSNumber(value: result))
 ```
